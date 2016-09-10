@@ -6,6 +6,30 @@ Django, RESTful server to support the gists metadata.
 ## Install
 In the directory/ [virtual machine](https://virtualenvwrapper.readthedocs.io/en/latest/)
 
+* Create the local_setting
+```python
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DEBUG = True
+GITHUB_APP_ID = 'XXXXXXXXXXXXXXXXXXX'
+GITHUB_API_SECRET = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+
+SECRET_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+SITE_ID = 1
+
+STATIC_URL = '/static/'
+```
+
 * Create a virtual env (optional)
 
         mkvirtualenv gistx-env
@@ -27,30 +51,26 @@ In the directory/ [virtual machine](https://virtualenvwrapper.readthedocs.io/en/
 	* Create DB
 
 	        python manage.py migrate
-
-	* Create Superuser
-	
-	        python manage.py createsuperuser      
 		
+	* Install server
+
+	        python manage.py install
+
 	* Run server
 
 	        python manage.py runserver
-        
-* Register the social application
- 
-	`http://localhost:8000/admin/socialaccount/socialapp/`
+
 		
 ## routes
 ### get
-- [ ]  `/hot` Shows the public gists hot data from github.
-- [ ]  `/fresh` Shows the public gists fresh data from github.
+- [x]  `/api/gists/?category=hot&page=2` Shows the public gists hot data from github.
+- [x]  `category=fresh` Shows the public gists fresh data from github.
+- [x]  `category=trending` Shows the public gists trending data from github.
+- [x]  `/accounts/github/login` With the github client-id the server will identify the user.
 - [ ]  `/user/gist/comments` Shows the public gist comments from github.
 - [ ]  `/user/gist/likes` Shows the public gist likes from github/server.
-
-### post
-- [ ]  `/login/<client-id>` With the github client-id the server will identify the user.
 - [ ]  `/user/<client-id>/<gist-id>/?` Post a comment.
 - [ ]  `/user/gists` Shows the User public gist.
 - [ ]  `/user/<gist-id>/comments` Shows the user gist comments from github.
-- [ ]  `/user/<gist-id>/likes` Shows the user gist likes from github.
+- [ ]  `/user/<gist-id>/likes` Shows the user gist likes.
 
