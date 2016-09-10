@@ -1,5 +1,6 @@
 package me.storm.ninegag.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -40,7 +41,6 @@ public class MainActivity extends BaseActivity {
     private BlurFoldingActionBarToggle mDrawerToggle;
 
     //Fragment
-    private FeedsFragment mContentFragment;
 
     // The current chosen category
     private Category mCategory;
@@ -108,11 +108,6 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    protected void replaceFragment(int viewId, BaseFragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(viewId, fragment).commit();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -127,7 +122,10 @@ public class MainActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                mContentFragment.loadFirstAndScrollToTop();
+                getContentFragment(FeedsFragment.class).loadFirstAndScrollToTop();
+                return true;
+            case R.id.action_profile:
+                startActivity(new Intent(this, LoginActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -144,4 +142,6 @@ public class MainActivity extends BaseActivity {
         mContentFragment = FeedsFragment.newInstance(category);
         replaceFragment(R.id.content_frame, mContentFragment);
     }
+
+
 }

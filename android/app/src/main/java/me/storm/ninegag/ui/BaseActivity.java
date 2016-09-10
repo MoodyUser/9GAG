@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,6 +21,7 @@ import com.romainpiel.shimmer.ShimmerTextView;
 import me.storm.ninegag.R;
 import me.storm.ninegag.data.RequestManager;
 import me.storm.ninegag.ui.Receivers.GistLikeReceiver;
+import me.storm.ninegag.ui.fragment.BaseFragment;
 import me.storm.ninegag.util.ToastUtils;
 
 /**
@@ -29,6 +31,8 @@ public abstract class BaseActivity extends FragmentActivity {
     protected ActionBar actionBar;
     private ShimmerTextView mActionBarTitle;
     public  AlarmManager alarmMgr;
+
+    protected BaseFragment mContentFragment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +61,16 @@ public abstract class BaseActivity extends FragmentActivity {
         mActionBarTitle.setText(text);
     }
 
+    protected void replaceFragment(int viewId, BaseFragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(viewId, fragment).commit();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                return true;
-            case R.id.action_profile:
-                startActivity(new Intent(this, PreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,7 +97,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public void setTimeNotification(String gist_id) {
-        int half_hour_millis=10000;
+        int half_hour_millis=1000;
         Intent intent = new Intent(this, GistLikeReceiver.class);
         int notificationId=1;
         intent.putExtra("GIST_ID", gist_id);
@@ -99,6 +105,10 @@ public abstract class BaseActivity extends FragmentActivity {
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() +
                         half_hour_millis, alarmIntent);
+    }
+
+    public <T extends BaseFragment> T getContentFragment(Class<T> type) {
+        return type.cast(mContentFragment);
     }
 
 }
