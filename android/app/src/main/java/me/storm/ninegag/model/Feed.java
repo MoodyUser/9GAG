@@ -13,6 +13,7 @@ import me.storm.ninegag.dao.FeedsDataHelper;
 public class Feed extends BaseModel {
     private static final HashMap<String, Feed> CACHE = new HashMap<String, Feed>();
 
+    public int id;
     public String git_id;
     public String self_url;
     public String title;

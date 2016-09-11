@@ -18,6 +18,7 @@ class GistSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Gist
         fields = ('git_id',
+                  'id',
                   'self_url',
                   'title',
                   'owner_name',

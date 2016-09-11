@@ -10,7 +10,8 @@ from django.db import models
 class Gist(models.Model):
     # Our user
     user = models.ForeignKey(User, related_name="gists", blank=True, null=True)
-    git_id = models.CharField(max_length=40,unique=True, null=False, blank=False)
+    git_id = models.CharField(max_length=40, unique=True, null=False, blank=False)
+    id = models.IntegerField(auto_created=True, primary_key=True)
     title = models.CharField(max_length=500, null=True, blank=False)
     self_url = models.CharField(max_length=100, null=False, blank=False)
     # api owner
@@ -48,7 +49,7 @@ class Gist(models.Model):
             # "size = mode": "",
             # "created_at": datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
             # TODO : created_at
-            #"created_at": datetime.strptime(json_item['created_at'], "YYYY-MM-DDThh:mm:ssZ")
+            # "created_at": datetime.strptime(json_item['created_at'], "YYYY-MM-DDThh:mm:ssZ")
             "created_at": datetime.now(),
             "updated_at": datetime.now(),
         }
@@ -65,7 +66,7 @@ class Gist(models.Model):
         # "recommended_gists": "",
         # "script_url": "",
         Gist.objects.update_or_create(
-                git_id=json_item['id'], defaults=kwargs)
+            git_id=json_item['id'], defaults=kwargs)
 
     @staticmethod
     def validate_github_api(json_item):
@@ -98,6 +99,7 @@ class Gist(models.Model):
         # "script_url": "",
         item = Gist(**kwargs)
         item.save()
+
     class Meta:
         unique_together = (('user', 'git_id'),)
 
