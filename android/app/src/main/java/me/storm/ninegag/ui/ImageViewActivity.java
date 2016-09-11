@@ -28,7 +28,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by storm on 14-4-15.
  */
 public class ImageViewActivity extends BaseActivity {
-    Feed feed;
+    Feed feed=null;
 
     @InjectView(R.id.webView)
     WebView webView;
@@ -43,7 +43,7 @@ public class ImageViewActivity extends BaseActivity {
     BootstrapButton eye_button;
 
     @OnClick(R.id.fork_page) void forkOnClick() {
-        setTimeNotification(feed.git_id);
+        setTimeNotification(feed.git_id,feed.title);
         Log.e("ImageViewActivity","fork_page onclick");
     }
     @OnClick(R.id.share_page) void shareOnClick() {
@@ -59,7 +59,7 @@ public class ImageViewActivity extends BaseActivity {
         setContentView(R.layout.activity_imageview);
         ButterKnife.inject(this);
         String git_id = getIntent().getStringExtra("GIST_ID");
-
+        feed=null;
         feed = Feed.getFromCache(git_id);
         setTitle(feed.title);
 

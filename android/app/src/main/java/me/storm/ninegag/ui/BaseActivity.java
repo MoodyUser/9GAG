@@ -22,6 +22,7 @@ import me.storm.ninegag.R;
 import me.storm.ninegag.data.RequestManager;
 import me.storm.ninegag.ui.Receivers.GistLikeReceiver;
 import me.storm.ninegag.ui.fragment.BaseFragment;
+import me.storm.ninegag.util.FunctionVault;
 import me.storm.ninegag.util.ToastUtils;
 
 /**
@@ -96,12 +97,15 @@ public abstract class BaseActivity extends FragmentActivity {
         };
     }
 
-    public void setTimeNotification(String gist_id) {
-        int half_hour_millis=1000;
+    public void setTimeNotification(String gist_id,String gist_title) {
+        int half_hour_millis=30*60*1000;
+        FunctionVault function=new FunctionVault();
         Intent intent = new Intent(this, GistLikeReceiver.class);
-        int notificationId=1;
+        String gist_by_num=gist_id.substring(21);
+        int notificationID=(int)function.toAscii(gist_by_num);
         intent.putExtra("GIST_ID", gist_id);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, notificationId, intent, 0);
+        intent.putExtra("GIST_TITLE", gist_title);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, notificationID, intent, 0);
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() +
                         half_hour_millis, alarmIntent);

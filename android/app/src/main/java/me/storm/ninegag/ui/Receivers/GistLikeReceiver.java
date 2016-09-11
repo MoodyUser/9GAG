@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import me.storm.ninegag.R;
 import me.storm.ninegag.model.Feed;
+import me.storm.ninegag.util.FunctionVault;
 
 
 /**
@@ -33,22 +34,23 @@ public class GistLikeReceiver extends BroadcastReceiver {
         Log.e("GistLikeReceiver", "GistLikeReceiver, ok");
         this.context = context;
         String gist_id = intent.getExtras().getString("GIST_ID");
-        Feed gist = Feed.getFromCache(gist_id);
+        String gist_title = intent.getExtras().getString("GIST_TITLE");
+
         mNotificationManager =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
 
         Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibe.vibrate(200);
+        vibe.vibrate(400);
 
 
-        setNotification(gist_id, gist.title, context);
+        setNotification(gist_id, gist_title, context);
 
 
     }
 
     public void setNotification(final String git_id, final String gist_title, Context ctx) {
-
+        final FunctionVault function=new FunctionVault();
         final NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctx)
                         .setSmallIcon(R.drawable.icon)
@@ -60,7 +62,8 @@ public class GistLikeReceiver extends BroadcastReceiver {
                     @Override
                     public void run() {
                         mBuilder.setContentText(gist_title);
-                        int notificationID = 1;
+                        String gist_by_num=git_id.substring(21);
+                        int notificationID=(int)function.toAscii(gist_by_num);
                         mNotificationManager.notify(notificationID, mBuilder.build());
                     }
                 }
@@ -69,18 +72,6 @@ public class GistLikeReceiver extends BroadcastReceiver {
     }
 
 
-    private static long toAscii(String s) {
-        StringBuilder sb = new StringBuilder();
-        String ascString = null;
-        long asciiInt;
-        for (int i = 0; i < s.length(); i++) {
-            sb.append((int) s.charAt(i));
-            char c = s.charAt(i);
-        }
-        ascString = sb.toString();
-        String cutString = ascString.substring(0, 15);
-        asciiInt = Long.parseLong(cutString);
-        return asciiInt;
-    }
+
 
 }
