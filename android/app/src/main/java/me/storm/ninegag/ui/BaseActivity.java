@@ -3,7 +3,6 @@ package me.storm.ninegag.ui;
 import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -20,9 +19,9 @@ import com.romainpiel.shimmer.ShimmerTextView;
 
 import me.storm.ninegag.R;
 import me.storm.ninegag.data.RequestManager;
+import me.storm.ninegag.model.Feed;
 import me.storm.ninegag.ui.Receivers.GistLikeReceiver;
 import me.storm.ninegag.ui.fragment.BaseFragment;
-import me.storm.ninegag.util.FunctionVault;
 import me.storm.ninegag.util.ToastUtils;
 
 /**
@@ -97,18 +96,19 @@ public abstract class BaseActivity extends FragmentActivity {
         };
     }
 
-    public void setTimeNotification(String gist_id,String gist_title) {
+    public void setTimeNotification(int gistId,String gistTitle) {
         int half_hour_millis=30*60*1000;
-        FunctionVault function=new FunctionVault();
         Intent intent = new Intent(this, GistLikeReceiver.class);
-        String gist_by_num=gist_id.substring(21);
-        int notificationID=(int)function.toAscii(gist_by_num);
-        intent.putExtra("GIST_ID", gist_id);
-        intent.putExtra("GIST_TITLE", gist_title);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, notificationID, intent, 0);
+        intent.putExtra("GIST_ID", gistId);
+        intent.putExtra("GIST_TITLE", gistTitle);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, gistId, intent, 0);
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() +
                         half_hour_millis, alarmIntent);
+    }
+
+    public void setTimeNotification(String gitId,String gistTitle) {
+        setTimeNotification(Feed.getFromCache(gitId).id,gistTitle);
     }
 
     public <T extends BaseFragment> T getContentFragment(Class<T> type) {

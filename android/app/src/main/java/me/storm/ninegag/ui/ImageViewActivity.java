@@ -43,7 +43,7 @@ public class ImageViewActivity extends BaseActivity {
     BootstrapButton eye_button;
 
     @OnClick(R.id.fork_page) void forkOnClick() {
-        setTimeNotification(feed.git_id,feed.title);
+        setTimeNotification(feed.id,feed.title);
         Log.e("ImageViewActivity","fork_page onclick");
     }
     @OnClick(R.id.share_page) void shareOnClick() {

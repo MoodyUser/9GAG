@@ -30,8 +30,8 @@ public class Feed extends BaseModel {
         CACHE.put(feed.git_id, feed);
     }
 
-    public static Feed getFromCache(String git_id) {
-        return CACHE.get(git_id);
+    public static Feed getFromCache(String gitId) {
+        return CACHE.get(gitId);
     }
 
     public static Feed fromJson(String json) {

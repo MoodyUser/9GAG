@@ -1,24 +1,14 @@
 package me.storm.ninegag.ui.Receivers;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Vibrator;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import java.util.Locale;
-
 import me.storm.ninegag.R;
-import me.storm.ninegag.model.Feed;
-import me.storm.ninegag.util.FunctionVault;
 
 
 /**
@@ -33,8 +23,8 @@ public class GistLikeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.e("GistLikeReceiver", "GistLikeReceiver, ok");
         this.context = context;
-        String gist_id = intent.getExtras().getString("GIST_ID");
-        String gist_title = intent.getExtras().getString("GIST_TITLE");
+        int gistId = intent.getExtras().getInt("GIST_ID");
+        String gistTitle = intent.getExtras().getString("GIST_TITLE");
 
         mNotificationManager =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
@@ -44,13 +34,10 @@ public class GistLikeReceiver extends BroadcastReceiver {
         vibe.vibrate(400);
 
 
-        setNotification(gist_id, gist_title, context);
-
-
+        setNotification(gistId, gistTitle, context);
     }
 
-    public void setNotification(final String git_id, final String gist_title, Context ctx) {
-        final FunctionVault function=new FunctionVault();
+    public void setNotification(final int gitId, final String gistTitle, Context ctx) {
         final NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctx)
                         .setSmallIcon(R.drawable.icon)
@@ -61,10 +48,8 @@ public class GistLikeReceiver extends BroadcastReceiver {
                 new Runnable() {
                     @Override
                     public void run() {
-                        mBuilder.setContentText(gist_title);
-                        String gist_by_num=git_id.substring(21);
-                        int notificationID=(int)function.toAscii(gist_by_num);
-                        mNotificationManager.notify(notificationID, mBuilder.build());
+                        mBuilder.setContentText(gistTitle);
+                        mNotificationManager.notify(gitId, mBuilder.build());
                     }
                 }
 
