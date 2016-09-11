@@ -24,6 +24,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import me.storm.ninegag.R;
 import me.storm.ninegag.model.Feed;
+import me.storm.ninegag.ui.BaseActivity;
 
 
 /**
@@ -42,8 +43,11 @@ public class FeedsAdapter extends CursorAdapter {
 
     private Resources mResource;
 
-    public FeedsAdapter(Context context, StaggeredGridView listView) {
+    private BaseActivity mActivity;
+
+    public FeedsAdapter(BaseActivity context, StaggeredGridView listView) {
         super(context, null, false);
+        mActivity = context;
         mResource = context.getResources();
         mLayoutInflater = LayoutInflater.from(context);
         mListView = listView;
@@ -90,7 +94,7 @@ public class FeedsAdapter extends CursorAdapter {
         return holder;
     }
 
-    public static class Holder {
+    public class Holder {
         @InjectView(R.id.iv_normal)
         WebView gist;
 
@@ -108,6 +112,8 @@ public class FeedsAdapter extends CursorAdapter {
         BootstrapButton eye_button;
 
         @OnClick(R.id.fork) void forkOnClick() {
+
+            mActivity.setTimeNotification(git_id,Feed.getFromCache(git_id).title);
             Log.e("FeedsAdapter - Holder","fork onclick");
         }
         @OnClick(R.id.share) void shareOnClick() {

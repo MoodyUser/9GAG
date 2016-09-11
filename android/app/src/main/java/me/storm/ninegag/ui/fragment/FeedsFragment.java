@@ -30,6 +30,7 @@ import me.storm.ninegag.dao.FeedsDataHelper;
 import me.storm.ninegag.data.GsonRequest;
 import me.storm.ninegag.model.Category;
 import me.storm.ninegag.model.Feed;
+import me.storm.ninegag.ui.BaseActivity;
 import me.storm.ninegag.ui.ImageViewActivity;
 import me.storm.ninegag.ui.adapter.CardsAnimationAdapter;
 import me.storm.ninegag.ui.adapter.FeedsAdapter;
@@ -80,7 +81,7 @@ public class FeedsFragment extends BaseFragment implements LoaderManager.LoaderC
 
         parseArgument();
         mDataHelper = new FeedsDataHelper(App.getContext(), mCategory);
-        mAdapter = new FeedsAdapter(getActivity(), gridView);
+        mAdapter = new FeedsAdapter((BaseActivity)getActivity(), gridView);
         View header = new View(getActivity());
         gridView.addHeaderView(header);
         AnimationAdapter animationAdapter = new CardsAnimationAdapter(mAdapter);
