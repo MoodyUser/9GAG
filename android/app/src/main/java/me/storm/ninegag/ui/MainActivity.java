@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity {
                 getContentFragment(FeedsFragment.class).loadFirstAndScrollToTop();
                 return true;
             case R.id.action_profile:
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, OAuthActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

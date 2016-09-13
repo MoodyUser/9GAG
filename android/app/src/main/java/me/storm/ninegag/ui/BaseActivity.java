@@ -4,10 +4,12 @@ import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -30,7 +32,7 @@ import me.storm.ninegag.util.ToastUtils;
 public abstract class BaseActivity extends FragmentActivity {
     protected ActionBar actionBar;
     private ShimmerTextView mActionBarTitle;
-    public  AlarmManager alarmMgr;
+    public AlarmManager alarmMgr;
 
     protected BaseFragment mContentFragment;
 
@@ -96,8 +98,8 @@ public abstract class BaseActivity extends FragmentActivity {
         };
     }
 
-    public void setTimeNotification(int gistId,String gistTitle) {
-        int half_hour_millis=30*60*1000;
+    public void setTimeNotification(int gistId, String gistTitle) {
+        int half_hour_millis = 30 * 60 * 1000;
         Intent intent = new Intent(this, GistLikeReceiver.class);
         intent.putExtra("GIST_ID", gistId);
         intent.putExtra("GIST_TITLE", gistTitle);
@@ -107,12 +109,30 @@ public abstract class BaseActivity extends FragmentActivity {
                         half_hour_millis, alarmIntent);
     }
 
-    public void setTimeNotification(String gitId,String gistTitle) {
-        setTimeNotification(Feed.getFromCache(gitId).id,gistTitle);
+    public void setTimeNotification(String gitId, String gistTitle) {
+        setTimeNotification(Feed.getFromCache(gitId).id, gistTitle);
     }
 
     public <T extends BaseFragment> T getContentFragment(Class<T> type) {
         return type.cast(mContentFragment);
     }
 
+    public String getFromSharedPreferences(String key) {
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        return sharedPref.getString(key, "");
+    }
+
+    public void putStringToSharedPreferences(String key, String value) {
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Log.e(this.getClass().toString(), "authenticated");
+        }
+    }
 }

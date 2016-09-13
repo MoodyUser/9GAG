@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.OAuthActivity"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".ui.ImageViewActivity"

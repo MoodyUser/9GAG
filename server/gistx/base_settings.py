@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     # django rest framework
     'rest_framework',
+    'rest_framework.authtoken',
     # our APPS
     'management',
     'login',
@@ -78,6 +79,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
 )
 LOGIN_REDIRECT_URL = '/'
 
