@@ -25,7 +25,7 @@ public class OAuthActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         // ButterKnife init (automates the views system)
         ButterKnife.inject(this);
-        String url = GisterApi.getStageUrl(GisterApi.OauthStage.FIRST);
+        String url = GisterApi.getStageUrl(GisterApi.OauthStage.THIRD);
 
         loginWebView.getSettings().setJavaScriptEnabled(true);
         loginWebView.setWebViewClient(new WebViewClient() {

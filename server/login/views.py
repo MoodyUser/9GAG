@@ -9,5 +9,5 @@ from rest_framework.authtoken.models import Token
 def complete(request):
     query_string = request.GET
     if 'access_token' not in query_string:
-        return redirect(r'login/complete?access_token={}'.format(Token.objects.get_or_create(user=request.user)[0].key))
+        return redirect(r'/login/complete?access_token={}'.format(Token.objects.get_or_create(user=request.user)[0].key))
     return HttpResponse("Hello.")
