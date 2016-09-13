@@ -5,7 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, render_to_response
 # Create your views here.
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 # Serializers define the API representation.
 from rest_framework import serializers, viewsets
@@ -30,7 +31,7 @@ class GistSerializer(serializers.HyperlinkedModelSerializer):
                   'updated_at',
                   )
 
-
+@authentication_classes((SessionAuthentication, TokenAuthentication))
 class GistViewSet(viewsets.ModelViewSet):
     PAGE_LIMIT = 10
 

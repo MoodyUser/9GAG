@@ -36,11 +36,11 @@ public class OAuthActivity extends BaseActivity {
                 if (url.contains(accessTokenFragment)) {
                     // the GET request contains directly the token
                     String accessToken = url.substring(url.indexOf(accessTokenFragment));
-                    putStringToSharedPreferences(getString(R.string.access_token), accessToken);
+                    putStringToSharedPreferences(getString(R.string.access_token), accessToken.split("=")[1]);
 
                     // So we send it and finish.
                     Intent data = new Intent();
-                    data.putExtra(getString(R.string.access_token), accessToken);
+                    data.putExtra(getString(R.string.access_token), accessToken.split("=")[1]);
                     setResult(BaseActivity.RESULT_OK, data);
                     finish();
                 } else if (url.equals(GisterApi.getStageUrl(GisterApi.OauthStage.SECOND))) {

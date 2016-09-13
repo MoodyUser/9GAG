@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -81,7 +84,7 @@ public class FeedsFragment extends BaseFragment implements LoaderManager.LoaderC
 
         parseArgument();
         mDataHelper = new FeedsDataHelper(App.getContext(), mCategory);
-        mAdapter = new FeedsAdapter((BaseActivity)getActivity(), gridView);
+        mAdapter = new FeedsAdapter((BaseActivity) getActivity(), gridView);
         View header = new View(getActivity());
         gridView.addHeaderView(header);
         AnimationAdapter animationAdapter = new CardsAnimationAdapter(mAdapter);
@@ -139,7 +142,19 @@ public class FeedsFragment extends BaseFragment implements LoaderManager.LoaderC
         }
         String url = GisterApi.buildRequest(mCategory.getDisplayName(),
                 (("0".equals(next) ? "" : next)));
-        executeRequest(new GsonRequest(url, Feed.FeedRequestData.class, responseListener(), errorListener()));
+
+        Map<String, String> keys =
+                new HashMap<String, String>();
+
+        // Getting the token.. why not
+        String key = ((BaseActivity) getActivity()).getFromSharedPreferences(getString(R.string.access_token, ""));
+        if (!key.equals("default")) {
+            keys.put("AUTHORIZATION", "Token " + key);
+        }
+        executeRequest(new GsonRequest(url,
+                Feed.FeedRequestData.class,
+                responseListener(),
+                errorListener(), keys));
     }
 
     private Response.Listener<Feed.FeedRequestData> responseListener() {

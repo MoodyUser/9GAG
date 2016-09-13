@@ -118,15 +118,15 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public String getFromSharedPreferences(String key) {
-        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("BaseActivity", MODE_PRIVATE);
         return sharedPref.getString(key, "");
     }
 
     public void putStringToSharedPreferences(String key, String value) {
-        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("BaseActivity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
