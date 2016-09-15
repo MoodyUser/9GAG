@@ -132,7 +132,9 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            Intent intent = new Intent(BaseActivity.this, PreferenceActivity.class);
             Log.e(this.getClass().toString(), "authenticated");
+            startActivity(intent);
         }
     }
 }
