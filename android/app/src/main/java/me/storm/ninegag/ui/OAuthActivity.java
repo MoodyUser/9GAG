@@ -31,16 +31,19 @@ public class OAuthActivity extends BaseActivity {
         loginWebView.setWebViewClient(new WebViewClient() {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 String accessTokenFragment = "access_token=";
+                String githubTokenFragment = "github_token=";
 
                 // We hijack the GET request to extract the OAuth parameters
                 if (url.contains(accessTokenFragment)) {
                     // the GET request contains directly the token
                     String accessToken = url.substring(url.indexOf(accessTokenFragment));
+                    String githubToken = url.substring(url.indexOf(githubTokenFragment));
                     putStringToSharedPreferences(getString(R.string.access_token), accessToken.split("=")[1]);
-
+                    putStringToSharedPreferences(getString(R.string.github_token), githubToken.split("=")[1]);
                     // So we send it and finish.
                     Intent data = new Intent();
                     data.putExtra(getString(R.string.access_token), accessToken.split("=")[1]);
+                    data.putExtra(getString(R.string.github_token), githubToken.split("=")[1]);
                     setResult(BaseActivity.RESULT_OK, data);
                     finish();
                 } else if (url.equals(GisterApi.getStageUrl(GisterApi.OauthStage.SECOND))) {

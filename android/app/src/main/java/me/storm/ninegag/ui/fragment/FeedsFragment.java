@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
@@ -147,14 +148,16 @@ public class FeedsFragment extends BaseFragment implements LoaderManager.LoaderC
                 new HashMap<String, String>();
 
         // Getting the token.. why not
-        String key = ((BaseActivity) getActivity()).getFromSharedPreferences(getString(R.string.access_token, ""));
-        if (!key.equals("default")) {
-            keys.put("AUTHORIZATION", "Token " + key);
-        }
-        executeRequest(new GsonRequest(url,
+//        String key = ((BaseActivity) getActivity()).getFromSharedPreferences(getString(R.string.access_token, ""));
+//        if (!key.equals("default")) {
+//            keys.put("AUTHORIZATION", "Token " + key);
+//        }
+        executeRequest(new GsonRequest(Request.Method.GET,
+                url,
                 Feed.FeedRequestData.class,
+                keys,
                 responseListener(),
-                errorListener(), keys));
+                errorListener()));
     }
 
     private Response.Listener<Feed.FeedRequestData> responseListener() {

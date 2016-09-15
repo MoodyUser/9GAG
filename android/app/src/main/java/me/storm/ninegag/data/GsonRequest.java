@@ -25,9 +25,7 @@ public class GsonRequest<T> extends Request<T> {
     private final Listener<T> mListener;
     private final Map<String, String> mHeaders;
 
-    public GsonRequest(String url, Class<T> clazz, Listener<T> listener, ErrorListener errorListener, Map<String, String> headers) {
-        this(Method.GET, url, clazz, headers, listener, errorListener);
-    }
+
 
     public GsonRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
                        Listener<T> listener, ErrorListener errorListener) {
@@ -57,11 +55,11 @@ public class GsonRequest<T> extends Request<T> {
             return Response.success(mGson.fromJson(json, mClazz),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
-            Log.e("Gson request", "UnsupportedEncodingException ~ " + e.toString());
+            Log.e("Gson request","UnsupportedEncodingException ~ " + e.toString());
 
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
-            Log.e("Gson request", "JsonSyntaxException ~ " + e.toString());
+            Log.e("Gson request","JsonSyntaxException ~ "+ e.toString());
             return Response.error(new ParseError(e));
         }
     }

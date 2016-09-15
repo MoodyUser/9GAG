@@ -21,5 +21,6 @@
     <string name="donate_url">https://m.alipay.com/personal/payment.htm?reason=请我喝杯咖啡吧T_T&amp;amount=3&amp;account=zhangqi.dev@qq.com</string>
     <string name="action_profile">Profile</string>
     <string name="access_token">access_token</string>
+    <string name="github_token">github_token</string>
 
 </resources>

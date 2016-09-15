@@ -7,16 +7,23 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import me.storm.ninegag.R;
+import me.storm.ninegag.api.GithubApi;
+import me.storm.ninegag.data.GsonRequest;
 import me.storm.ninegag.model.Feed;
 import me.storm.ninegag.ui.adapter.FeedsAdapter;
 import me.storm.ninegag.view.ProgressWheel;
@@ -43,7 +50,15 @@ public class ImageViewActivity extends BaseActivity {
     BootstrapButton eye_button;
 
     @OnClick(R.id.fork_page) void forkOnClick() {
-        setTimeNotification(feed.id,feed.title);
+        setTimeNotification(feed.id, feed.title);
+        Map<String, String> keys =
+                new HashMap<String, String>();
+        String key = getFromSharedPreferences(getString(R.string.github_token, ""));
+        executeRequest(new GsonRequest(Request.Method.POST,GithubApi.fork(key, feed.git_id),
+                Feed.FeedRequestData.class,
+                null,
+                responseListener(),
+                errorListener()));
         Log.e("ImageViewActivity","fork_page onclick");
     }
     @OnClick(R.id.share_page) void shareOnClick() {
@@ -68,6 +83,16 @@ public class ImageViewActivity extends BaseActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadData(feed.script_url, "", "utf-8");
 
+    }
+
+
+    private Response.Listener<Feed.FeedRequestData> responseListener() {
+        return new Response.Listener<Feed.FeedRequestData>() {
+            @Override
+            public void onResponse(final Feed.FeedRequestData response) {
+                Log.e("ImageViewActivity", "forked in guthub");
+            }
+        };
     }
 
     @Override
