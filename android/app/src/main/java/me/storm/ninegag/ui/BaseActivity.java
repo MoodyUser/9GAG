@@ -123,7 +123,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public void putStringToSharedPreferences(String key, String value) {
-        SharedPreferences sharedPref = getSharedPreferences("BaseActivity", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("BaseActivity",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
         editor.apply();
