@@ -16,15 +16,17 @@ Including another URLconf
 from rest_framework import routers
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from django.conf import settings
+from django.conf.urls.static import static
 from gistsapi.views import GistViewSet
+from languages.views import LanguageViewSet
 from management.urls import UserViewSet
-
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'gists', GistViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'languages', LanguageViewSet)
 
 urlpatterns = [
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -33,6 +35,6 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^', include('gistsapi.urls')),
     url(r'^login/', include('login.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
