@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     # our APPS
     'management',
     'login',
-    'gistsapi',
     'languages',
+    'gistsapi',
 ]
 
 MIDDLEWARE = [
