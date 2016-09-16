@@ -18,9 +18,6 @@ def populate():
     location = settings.ARTIFACTS + self_path
     folder = Path(location)
     if folder is None:
-        print("Artifacts not found.")
-        location = raw_input("Can you give me a path?") + self_path
-    if folder is None:
         print("Illegal. please contact a contributor")
         return
 
