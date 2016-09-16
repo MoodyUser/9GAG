@@ -29,6 +29,7 @@ class GistSerializer(serializers.HyperlinkedModelSerializer):
                   'comments',
                   'created_at',
                   'updated_at',
+                  'language',
                   )
 
 @authentication_classes((SessionAuthentication, TokenAuthentication))

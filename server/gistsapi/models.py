@@ -4,14 +4,15 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
-
 # Create your models here.
+from languages.models import Languages
+
 
 class Gist(models.Model):
     # Our user
+    language = models.ManyToManyField(Languages)
     user = models.ForeignKey(User, related_name="gists", blank=True, null=True)
     git_id = models.CharField(max_length=40, unique=True, null=False, blank=False)
-    id = models.IntegerField(auto_created=True, primary_key=True)
     title = models.CharField(max_length=500, null=True, blank=False)
     self_url = models.CharField(max_length=100, null=False, blank=False)
     # api owner
@@ -36,7 +37,7 @@ class Gist(models.Model):
     #                           blank=True)
 
     @staticmethod
-    def save_github_api(json_item):
+    def save_github_api(json_item, languages):
         kwargs = {
             "user": None,
             "git_id": json_item['id'],
@@ -53,6 +54,7 @@ class Gist(models.Model):
             "created_at": datetime.now(),
             "updated_at": datetime.now(),
         }
+
         if "owner" in json_item:
             kwargs["owner_name"] = json_item["owner"]['login']
             kwargs["owner_id"] = json_item["owner"]['login']
@@ -65,8 +67,14 @@ class Gist(models.Model):
         # "owner_id": "",
         # "recommended_gists": "",
         # "script_url": "",
-        Gist.objects.update_or_create(
+        gist, ok = Gist.objects.update_or_create(
             git_id=json_item['id'], defaults=kwargs)
+        for file in json_item['files']:
+            ending = file.split(".")[-1]
+            lang = languages.get(ending, None)
+            if lang:
+                gist.language.add(lang)
+        gist.save()
 
     @staticmethod
     def validate_github_api(json_item):
