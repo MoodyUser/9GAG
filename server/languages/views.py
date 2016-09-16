@@ -28,5 +28,12 @@ class LanguageSerializer(serializers.HyperlinkedModelSerializer):
 
 @authentication_classes((SessionAuthentication, TokenAuthentication))
 class LanguageViewSet(viewsets.ModelViewSet):
+    def filter_queryset(self, queryset):
+        # Getting the arguments.
+        query_string = self.request.GET
+        if 'parent' in query_string:
+            queryset = queryset.filter(parent__isnull=True).all()
+        return super(LanguageViewSet, self).filter_queryset(queryset)
+    
     queryset = Languages.objects.all()
     serializer_class = LanguageSerializer
