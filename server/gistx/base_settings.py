@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'management',
     'login',
     'gistsapi',
+    'languages',
 ]
 
 MIDDLEWARE = [
@@ -86,9 +86,7 @@ LOGIN_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'gistx.urls'
 
-
 WSGI_APPLICATION = 'gistx.wsgi.application'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -119,6 +117,8 @@ REST_FRAMEWORK = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
+ARTIFACTS = "../artifacts"
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -128,5 +128,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
