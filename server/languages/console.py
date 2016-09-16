@@ -4,7 +4,6 @@ from requests import get as _get
 from pprint import pprint
 from gistsapi.models import Gist
 from gistx import settings
-from Tools.scripts.treesync import raw_input
 import re
 from .models import Languages
 from shutil import copyfile
