@@ -13,6 +13,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.storm.ninegag.App;
 
 /**
@@ -31,6 +34,21 @@ public class RequestManager {
         }
         mRequestQueue.add(request);
     }
+
+    public static void addRequest(GsonRequest<?> request, Object tag,String key) {
+        // Getting the token.. why not
+        Map<String, String> keys =
+                new HashMap<String, String>();
+        if (!key.equals("default")) {
+            keys.put("AUTHORIZATION", key);
+        }
+        if (tag != null) {
+            request.setTag(tag);
+        }
+        request.setHeaders(keys);
+        mRequestQueue.add(request);
+    }
+
 
     public static void cancelAll(Object tag) {
         mRequestQueue.cancelAll(tag);

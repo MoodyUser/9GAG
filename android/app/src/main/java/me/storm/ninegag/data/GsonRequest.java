@@ -23,7 +23,7 @@ public class GsonRequest<T> extends Request<T> {
     private final Gson mGson = new Gson();
     private final Class<T> mClazz;
     private final Listener<T> mListener;
-    private final Map<String, String> mHeaders;
+    private Map<String, String> mHeaders;
 
 
 
@@ -64,5 +64,8 @@ public class GsonRequest<T> extends Request<T> {
         }
     }
 
+    public void setHeaders(Map<String, String> mHeaders){
+        this.mHeaders = mHeaders;
+    }
 
 }

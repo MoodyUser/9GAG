@@ -144,20 +144,13 @@ public class FeedsFragment extends BaseFragment implements LoaderManager.LoaderC
         String url = GisterApi.buildRequest(mCategory.getDisplayName(),
                 (("0".equals(next) ? "" : next)));
 
-        Map<String, String> keys =
-                new HashMap<String, String>();
-
-        // Getting the token.. why not
-//        String key = ((BaseActivity) getActivity()).getFromSharedPreferences(getString(R.string.access_token, ""));
-//        if (!key.equals("default")) {
-//            keys.put("AUTHORIZATION", "Token " + key);
-//        }
+        String key = ((BaseActivity) getActivity()).getFromSharedPreferences(getString(R.string.access_token, ""));
         executeRequest(new GsonRequest(Request.Method.GET,
                 url,
                 Feed.FeedRequestData.class,
-                keys,
+                null,
                 responseListener(),
-                errorListener()));
+                errorListener()),key);
     }
 
     private Response.Listener<Feed.FeedRequestData> responseListener() {

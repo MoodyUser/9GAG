@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import me.storm.ninegag.data.GsonRequest;
 import me.storm.ninegag.data.RequestManager;
 import me.storm.ninegag.util.ToastUtils;
 
@@ -22,6 +23,10 @@ public abstract class BaseFragment extends Fragment {
 
     protected void executeRequest(Request request) {
         RequestManager.addRequest(request, this);
+    }
+
+    protected void executeRequest(GsonRequest request, String key) {
+        RequestManager.addRequest(request, this, key);
     }
 
     protected Response.ErrorListener errorListener() {

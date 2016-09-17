@@ -20,6 +20,7 @@ import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 
 import me.storm.ninegag.R;
+import me.storm.ninegag.data.GsonRequest;
 import me.storm.ninegag.data.RequestManager;
 import me.storm.ninegag.model.Feed;
 import me.storm.ninegag.ui.Receivers.GistLikeReceiver;
@@ -89,6 +90,10 @@ public abstract class BaseActivity extends FragmentActivity {
         RequestManager.addRequest(request, this);
     }
 
+    protected void executeRequest(GsonRequest<?> request, String key) {
+        RequestManager.addRequest(request, this, key);
+    }
+
     protected Response.ErrorListener errorListener() {
         return new Response.ErrorListener() {
             @Override
@@ -123,7 +128,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public void putStringToSharedPreferences(String key, String value) {
-        SharedPreferences sharedPref = getSharedPreferences("BaseActivity",MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("BaseActivity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
         editor.apply();
