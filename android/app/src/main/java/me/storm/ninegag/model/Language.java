@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.storm.ninegag.dao.FeedsDataHelper;
+import me.storm.ninegag.dao.LanguagesDataHelper;
 
 /**
  * Created by storm on 14-3-25.
@@ -33,14 +34,14 @@ public class Language extends BaseModel {
     }
 
     public static Language fromCursor(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndex(FeedsDataHelper.FeedsDBInfo.ID));
+        int id = cursor.getInt(cursor.getColumnIndex(LanguagesDataHelper.FeedsDBInfo.ID));
 
         Language lang = getFromCache(id);
         if (lang != null) {
             return lang;
         }
         lang = new Gson().fromJson(
-                cursor.getString(cursor.getColumnIndex(FeedsDataHelper.FeedsDBInfo.JSON)),
+                cursor.getString(cursor.getColumnIndex(LanguagesDataHelper.FeedsDBInfo.JSON)),
                 Language.class);
         addToCache(lang);
         return lang;

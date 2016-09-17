@@ -21,6 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         FeedsDataHelper.FeedsDBInfo.TABLE.create(db);
+        FeedsDataHelper.FeedsDBInfo.TABLE.create(db);
     }
 
     @Override
