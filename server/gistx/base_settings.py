@@ -128,3 +128,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+SOCIALACCOUNT_PROVIDERS = \
+    { 'github':
+        { 'SCOPE': ['gist', 'user'],
+          'AUTH_PARAMS': { 'access_type': 'token' } }}

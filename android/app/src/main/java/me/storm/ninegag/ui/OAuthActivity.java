@@ -25,7 +25,7 @@ public class OAuthActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         // ButterKnife init (automates the views system)
         ButterKnife.inject(this);
-        String url = GisterApi.getStageUrl(GisterApi.OauthStage.THIRD);
+        String url = GisterApi.getStageUrl(GisterApi.OauthStage.FIRST);
 
         loginWebView.getSettings().setJavaScriptEnabled(true);
         loginWebView.setWebViewClient(new WebViewClient() {
@@ -38,8 +38,8 @@ public class OAuthActivity extends BaseActivity {
                     // the GET request contains directly the token
                     String accessToken = url.substring(url.indexOf(accessTokenFragment));
                     String githubToken = url.substring(url.indexOf(githubTokenFragment));
-                    putStringToSharedPreferences(getString(R.string.access_token), accessToken.split("=")[1]);
-                    putStringToSharedPreferences(getString(R.string.github_token), githubToken.split("=")[1]);
+                    putStringToSharedPreferences(getString(R.string.access_token), "Token " + accessToken.split("=")[1].split("&")[0]);
+                    putStringToSharedPreferences(getString(R.string.github_token), "token " +  githubToken.split("=")[1]);
                     // So we send it and finish.
                     Intent data = new Intent();
                     data.putExtra(getString(R.string.access_token), accessToken.split("=")[1]);
