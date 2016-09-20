@@ -15,6 +15,7 @@ class Gist(models.Model):
     git_id = models.CharField(max_length=40, unique=True, null=False, blank=False)
     title = models.CharField(max_length=500, null=True, blank=False)
     self_url = models.CharField(max_length=100, null=False, blank=False)
+    html_url = models.CharField(max_length=100, null=False, blank=False)
     # api owner
     owner_name = models.CharField(max_length=100, null=False, blank=False)
     owner_id = models.CharField(max_length=100, null=False, blank=False)
@@ -24,7 +25,12 @@ class Gist(models.Model):
     # < script src = "https://gist.github.com/itzg/d569e21b13b7a5cf15ad0ef1366354e2.js" > < / script >
     script_url = models.TextField(max_length=10000, null=False, blank=False)
     # Url Or 0 for no comments.
-    comments = models.CharField(max_length=500, null=False, blank=False)
+    comments = models.IntegerField( null=False, blank=False)
+    comments_url = models.CharField(max_length=500, null=False, blank=False)
+    # forks
+    forks_url = models.CharField(max_length=500, null=False, blank=False)
+    # likes
+    like_url = models.CharField(max_length=500, null=False, blank=False)
 
     files_words = models.TextField(max_length=10000, null=False, blank=False)
     size = models.IntegerField(null=True, blank=True)
@@ -36,16 +42,20 @@ class Gist(models.Model):
     #                           null=True,
     #                           blank=True)
 
-    @staticmethod
+
     def save_github_api(json_item, languages):
         kwargs = {
             "user": None,
             "git_id": json_item['id'],
             "title": json_item['description'],
             "self_url": json_item['url'],
+            "html_url": json_item['html_url'],
             "script_url": '<script src="https://gist.github.com/{}.js"></script>'.format(
                 json_item['id']),
-            "comments": str(json_item['comments']),
+            "comments_count": str(json_item['comments']),
+            "comments_url": str(json_item.get('comments_url', "")),
+            "forks_url": json_item.get('forks_url', ""),
+            "likes_url": json_item["url"] + "/star",
             # "files_words": "",
             # "size = mode": "",
             # "created_at": datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
