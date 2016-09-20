@@ -19,6 +19,7 @@ import me.storm.ninegag.model.Category;
 import me.storm.ninegag.ui.fragment.BaseFragment;
 import me.storm.ninegag.ui.fragment.DrawerFragment;
 import me.storm.ninegag.ui.fragment.FeedsFragment;
+import me.storm.ninegag.ui.fragment.PreferenceFragment;
 import me.storm.ninegag.view.BlurFoldingActionBarToggle;
 import me.storm.ninegag.view.FoldingDrawerLayout;
 
@@ -126,6 +127,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.action_profile:
                 startActivity(new Intent(this, OAuthActivity.class));
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

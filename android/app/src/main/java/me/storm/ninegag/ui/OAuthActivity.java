@@ -10,6 +10,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.storm.ninegag.R;
 import me.storm.ninegag.api.GisterApi;
+import me.storm.ninegag.ui.adapter.FeedsAdapter;
+import me.storm.ninegag.ui.fragment.PreferenceFragment;
 
 /**
  * Created by storm on 14-4-16.
@@ -45,7 +47,14 @@ public class OAuthActivity extends BaseActivity {
                     data.putExtra(getString(R.string.access_token), accessToken.split("=")[1]);
                     data.putExtra(getString(R.string.github_token), githubToken.split("=")[1]);
                     setResult(BaseActivity.RESULT_OK, data);
-                    finish();
+
+
+                    Intent intent = new Intent(OAuthActivity.this, PreferenceActivity.class);
+                    intent.putExtra(getString(R.string.access_token), accessToken.split("=")[1]);
+                    intent.putExtra(getString(R.string.github_token), githubToken.split("=")[1]);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+
                 } else if (url.equals(GisterApi.getStageUrl(GisterApi.OauthStage.SECOND))) {
                     // Requesting..
                     view.loadUrl(GisterApi.getStageUrl(GisterApi.OauthStage.THIRD));
