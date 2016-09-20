@@ -8,6 +8,7 @@ public class GisterApi {
     public static final String HOST = HOME + "api/gists/";
     public static final String OAUTH_URL = HOME + "accounts/github/login";
     public static final String OAUTH_ACCESS_TOKEN_URL = HOME + "login/complete";
+    public static final String LANGUAGES = HOME + "/api/lanuages/?parent";
 
     public static String buildRequest(String category, String page) {
         String queryString = "?";
