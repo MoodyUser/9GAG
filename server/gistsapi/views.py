@@ -26,7 +26,12 @@ class GistSerializer(serializers.HyperlinkedModelSerializer):
                   'owner_id',
                   'recommended_gists',
                   'script_url',
-                  'comments',
+                  'comments_count',
+                  'likes_count',
+                  'forks_count',
+                  'comments_url',
+                  'likes_url',
+                  'forks_url',
                   'created_at',
                   'updated_at',
                   'language',
@@ -49,10 +54,10 @@ class GistViewSet(viewsets.ModelViewSet):
                 pass
             elif query_string['category'] == 'hot':
                 # see the most commented.
-                queryset = queryset.filter(comments__gte=0)
+                queryset = queryset.filter(likes_count__gte=1)
             elif query_string['category'] == 'trending':
                 # TODO: implament
-                queryset = queryset.filter(comments__gte=10)
+                queryset = queryset.filter(forks_count__gte=1)
 
         # hack paging with updated_at and PAGE_LIMIT
         queryset = queryset.order_by('updated_at').reverse()[:self.PAGE_LIMIT]

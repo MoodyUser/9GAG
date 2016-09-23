@@ -4,8 +4,6 @@ from django.core.management import BaseCommand
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 from gistx.settings import GITHUB_APP_ID, GITHUB_API_SECRET
-# from emessages import console as emc
-# from tips import console as tc
 
 
 class Command(BaseCommand):

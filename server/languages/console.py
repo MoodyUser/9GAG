@@ -30,11 +30,6 @@ def populate():
         child.save()
 
 
-
-        for language in Languages.objects.filter(parent__isnull=True).all():
-            for ending in language.file_ending.split(','):
-
-
 def get_object(location, name):
     val = parent_re.match(name)
     if val:
